@@ -23,6 +23,4 @@ $payment->payer = array(
 $payment->save();
 //...
 // Imprime el estado del pago
-echo json_encode($_REQUEST);
-echo json_encode($payment);exit;
-echo $payment->status;
+var_dump($payment);exit;
