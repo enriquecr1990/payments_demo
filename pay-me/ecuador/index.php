@@ -16,12 +16,12 @@
 -->
 <?php
 
-$acquirerId = '144';
-$idCommerce = '10432';
+$acquirerId = '119';
+$idCommerce = '10498';
 $purchaseOperationNumber = substr(time(),-6);
 $purchaseAmount = '78';
-$purchaseCurrencyCode = '604';
-$clavePasarela = 'vjcZJfRBeFNsUbxCqk?42344289672';
+$purchaseCurrencyCode = '4596';
+$clavePasarela = 'sbjEcqZaXJeXRxj$38249245';
 
 $purchaseVerification = openssl_digest($acquirerId.$idCommerce.$purchaseOperationNumber.$purchaseAmount.$purchaseCurrencyCode.$clavePasarela,'sha512');
 ?>
@@ -36,7 +36,7 @@ $purchaseVerification = openssl_digest($acquirerId.$idCommerce.$purchaseOperatio
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Método Pay-Me</title>
+    <title>Método Pay-Me Ecuador</title>
     <!-- scritps para el pago -->
     <script type="text/javascript" src="https://integracion.alignetsac.com/VPOS2/js/modalcomercio.js" ></script>
 
@@ -68,17 +68,31 @@ $purchaseVerification = openssl_digest($acquirerId.$idCommerce.$purchaseOperatio
                     <label class="col-lg-3">shippingLastName</label><input type="text" class="col-lg-9" name="shippingLastName" value="Corona">
                     <label class="col-lg-3">shippingEmail</label><input type="text" class="col-lg-9" name="shippingEmail" value="enriquecr1990@gmail.com">
                     <label class="col-lg-3">shippingAddress</label><input type="text" class="col-lg-9" name="shippingAddress" value="Una calle de peru">
-                    <label class="col-lg-3">shippingZIP</label><input type="text" class="col-lg-9" name="shippingZIP" value="07016">
-                    <label class="col-lg-3">shippingCity</label><input type="text" class="col-lg-9" name="shippingCity" value="Lima">
-                    <label class="col-lg-3">shippingState</label><input type="text" class="col-lg-9" name="shippingState" value="Lima">
-                    <label class="col-lg-3">shippingCountry</label><input type="text" class="col-lg-9" name="shippingCountry" value="PE">
+                    <label class="col-lg-3">shippingZIP</label><input type="text" class="col-lg-9" name="shippingZIP" value="100401">
+                    <label class="col-lg-3">shippingCity</label><input type="text" class="col-lg-9" name="shippingCity" value="QUITO">
+                    <label class="col-lg-3">shippingState</label><input type="text" class="col-lg-9" name="shippingState" value="PICHINCH">
+                    <label class="col-lg-3">shippingCountry</label><input type="text" class="col-lg-9" name="shippingCountry" value="EC">
 
-                    <!--<label class="col-lg-3">userCommerce</label><input type="text" class="col-lg-9" name="userCommerce" value="">
-                    <label class="col-lg-3">userCodePayme</label><input type="text" class="col-lg-9" name="userCodePayme" value="">-->
+                    <label class="col-lg-3">userCommerce</label><input type="text" class="col-lg-9" name="userCommerce" value="">
+                    <label class="col-lg-3">userCodePayme</label><input type="text" class="col-lg-9" name="userCodePayme" value="">
 
-                    <label class="col-lg-3">descriptionProducts</label><input type="text" class="col-lg-9" name="descriptionProducts" value="Probando pagar con payme">
+                    <label class="col-lg-3">descriptionProducts</label><input type="text" class="col-lg-9" name="descriptionProducts" value="Probando pagar con payme PARA ecuador">
                     <label class="col-lg-3">programmingLanguage</label><input type="text" class="col-lg-9" name="programmingLanguage" value="PHP">
                     <label class="col-lg-3">purchaseVerification</label><input type="text" class="col-lg-9" name="purchaseVerification" value="<?=$purchaseVerification?>">
+
+                    <label class="col-lg-3">reserved1</label><input type="text" class="col-lg-9" name="purchaseVerification" value="SP">
+                    <label class="col-lg-3">reserved2</label><input type="text" class="col-lg-9" name="purchaseVerification" value="4596">
+                    <label class="col-lg-3">reserved3</label><input type="text" class="col-lg-9" name="purchaseVerification" value="492">
+                    <label class="col-lg-3">reserved4</label><input type="text" class="col-lg-9" name="purchaseVerification" value="000">
+                    <label class="col-lg-3">reserved5</label><input type="text" class="col-lg-9" name="purchaseVerification" value="000">
+                    <label class="col-lg-3">reserved9</label><input type="text" class="col-lg-9" name="purchaseVerification" value="000">
+                    <label class="col-lg-3">reserved10</label><input type="text" class="col-lg-9" name="purchaseVerification" value="4104">
+                    <label class="col-lg-3">taxMontoFijo</label><input type="text" class="col-lg-9" name="purchaseVerification" value="4596">
+                    <label class="col-lg-3">taxMontoGravaIva</label><input type="text" class="col-lg-9" name="purchaseVerification" value="4104">
+                    <label class="col-lg-3">taxMontoIVA</label><input type="text" class="col-lg-9" name="purchaseVerification" value="492">
+                    <label class="col-lg-3">taxMontoNoGravaIva</label><input type="text" class="col-lg-9" name="purchaseVerification" value="000">
+                    <label class="col-lg-3">taxServicio</label><input type="text" class="col-lg-9" name="purchaseVerification" value="000">
+                    <label class="col-lg-3">taxICE</label><input type="text" class="col-lg-9" name="purchaseVerification" value="0">
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-12">

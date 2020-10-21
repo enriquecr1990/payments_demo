@@ -35,7 +35,7 @@
                 <div class="card-body">
                     <h5 class="card-title">PayPal</h5>
                     <p class="card-text">Método de pago PayPal aceptados en muchos paises del mundo</p>
-                    <a href="<?=ComunHelper::base_url()?>/paypal" class="btn btn-outline-primary" target="_blank">Ver Demo</a>
+                    <a href="<?=ComunHelper::base_url()?>paypal" class="btn btn-outline-primary" target="_blank">Ver Demo</a>
                 </div>
             </div>
         </div>
