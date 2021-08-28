@@ -14,8 +14,8 @@ class PayPal
 
     function __construct(){
         $this->host = 'https://api.sandbox.paypal.com';
-        $this->clientId = 'Af-yarH2_LYxebYrY8w5rbVwklhjjQzI7AjMzpSqwcY4gkWBhWbO8JTNrzVA3HRUfqrjpUzPpUCzKctv';
-        $this->secretId = 'EEQXioToMbJTSf8-_n0_tpq2omhcrttWYbVNCxLW3yfWokvpRy2Zo2gqOkRxMPpLz29kT5BK98kFWNSV';
+        $this->clientId = 'AcfUYK-HphIfaLeyBu_T4KMVB3y89_miFCcnbC0JAm2Ni5TFb7SdOyVDMJc-e_ussi7sT6Yvb9G3Wiep';
+        $this->secretId = 'EJ5tbv2ThRtNttYfeBhg0JOYy5OXupkf8-BTI8tV0QCge35tj42RfewdyxoVPyxNufBif1Q_H9G19mFj';
         $this->locale = 'es_MX';
         $this->currency = 'MXN';
         $this->countryCode = 'MX';

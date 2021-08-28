@@ -8,21 +8,27 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="icon" sizes="32x32" href="https://www.paypalobjects.com/webstatic/developer/favicons/pp32.png">
+    <title>Método Wompi - Colombia</title>
+    <!-- scritps para el pago -->
 
-    <title>Pago correcto - Juego de gemelas</title>
 </head>
 <body>
 
 <div class="container">
-    <div class="row mt-1">
-        <div class="alert alert-success">
-            Pago exitoso
+    <div class="row">
+        <div class="form-group col-lg-12">
+            <div class="alert alert-info">
+                Metodo de pago Wompi
+            </div>
         </div>
     </div>
 
-    <div class="row form-group">
-        <span class="badge badge-success">Link de descarga: </span><a href="https://drive.google.com/drive/folders/1P1GzUAdpiQRk-uM21eBmsP4GD_O-hdCl?usp=sharing" target="_blank">https://drive.google.com/drive/folders/1P1GzUAdpiQRk-uM21eBmsP4GD_O-hdCl?usp=sharing</a>
+    <div class="row">
+        <div class="form-group col-lg-12">
+            <div class="alert alert-success">
+                Pago realizado correctamente
+            </div>
+        </div>
     </div>
 </div>
 
@@ -35,7 +41,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<!-- scritps para el pago -->
+
 
 </body>
 </html>
