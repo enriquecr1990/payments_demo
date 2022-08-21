@@ -6,19 +6,25 @@ class PayPal
 {
 
     private $host;
+    private $host_risk;
+    private $merchant_id;
     private $currency;
     private $countryCode;
     private $clientId;
     private $secretId;
     private $locale;
+    private $reference_id;
 
     function __construct(){
         $this->host = 'https://api.sandbox.paypal.com';
-        $this->clientId = 'AcfUYK-HphIfaLeyBu_T4KMVB3y89_miFCcnbC0JAm2Ni5TFb7SdOyVDMJc-e_ussi7sT6Yvb9G3Wiep';
-        $this->secretId = 'EJ5tbv2ThRtNttYfeBhg0JOYy5OXupkf8-BTI8tV0QCge35tj42RfewdyxoVPyxNufBif1Q_H9G19mFj';
+        $this->host_risk = 'https://api-m.sandbox.paypal.com';
+        $this->merchant_id = 'YLWTGD5MXCXG8'; // converti mi cuenta a empresa en sandbox para obtener este dato
+        $this->clientId = 'Af-yarH2_LYxebYrY8w5rbVwklhjjQzI7AjMzpSqwcY4gkWBhWbO8JTNrzVA3HRUfqrjpUzPpUCzKctv';
+        $this->secretId = 'EEQXioToMbJTSf8-_n0_tpq2omhcrttWYbVNCxLW3yfWokvpRy2Zo2gqOkRxMPpLz29kT5BK98kFWNSV';
         $this->locale = 'es_MX';
         $this->currency = 'MXN';
         $this->countryCode = 'MX';
+        $this->reference_id = time();
     }
 
     public function getAccessToken(){
@@ -42,6 +48,25 @@ class PayPal
         return $return;
     }
 
+    public function risk_transaction($accessToken){
+        $url = $this->host_risk.'/v1/risk/transaction-contexts/'.$this->merchant_id.'/'.$this->reference_id;
+        $data = $this->getDataPayment();
+        $options = array(
+            CURLOPT_POST => true,
+            CURLOPT_CUSTOMREQUEST => "PUT",
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HEADER => false,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer '.$accessToken,
+                'Content-Type: application/json',
+            ),
+            CURLOPT_POSTFIELDS => '{"tracking_id" : "'.$this->reference_id.'"}',
+        );
+        //return $this->curlopt($url,$options);
+        return ComunHelper::curlopt($url,$options);
+    }
+
     public function createOrder($accessToken){
         $url = $this->host.'/v2/checkout/orders';
         $data = $this->getDataPayment();
@@ -54,7 +79,7 @@ class PayPal
                 'Authorization: Bearer '.$accessToken,
                 'Content-type: application/json',
             ),
-            CURLOPT_POSTFIELDS => $data
+            CURLOPT_POSTFIELDS => $data,
         );
         //return $this->curlopt($url,$options);
         return ComunHelper::curlopt($url,$options);
@@ -111,7 +136,7 @@ class PayPal
             ],
             'purchase_units' => [
                 [
-                    'reference_id' => time(),
+                    'reference_id' => $this->reference_id,
                     'description' => "Omnilife",
                     'invoice_id' => date('Ymdhis'),
                     'custom_id' => 'PayPalTestMX',

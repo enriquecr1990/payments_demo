@@ -2,7 +2,7 @@
 
 include 'DecidirPayment.php';
 
-$decidirPayment = new DecidirPayment();
+$decidirPayment = new CsPayme();
 
 $requets = (object)$_POST;
 
