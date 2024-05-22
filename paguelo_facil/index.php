@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mercado pago</title>
+    <title>PagueloFacil</title>
     <meta charset="utf-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
@@ -19,30 +19,26 @@
 
     <div class="col-lg-12">
         <div class="alert alert-info">
-            Metodo de pago "mercado pago" RESPUESTA DE PAGO
+            Metodo de pago "Paguelo facil"
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-12">
-            <?php
-
-                echo '<h5>respuesta de mercado pago GET</h5>';
-                echo '<pre>';echo print_r($_GET);echo '</pre>';
-                echo '<h5>respuesta de mercado pago POST</h5>';
-                echo '<pre>';echo print_r($_POST);echo '</pre>';
-            ?>
+            <button id="btn_pagar_pp" type="button" class="btn btn-info">Crear orden PF</button>
         </div>
     </div>
 
-    <div class="col-lg-12">
-        <div class="alert alert-info">
-            en bitoo debera mandar la respuesta en el front tomando en cuenta solamente de la respuesta el payment_id y consumirla en otro servicio para consultar el estatus del pago
+    <div class="row">
+        <div class="col-lg-12" id="div_link_pago">
+
         </div>
     </div>
 
-    <div class="col-lg-12">
-        <button type="button" class="btn btn-sm btn-warning" onclick="MercadoPagoJS.validarPago(<?=$_GET['payment_id']?>)">Validar pago MP</button>
+    <div class="row">
+        <div class="col-lg-12" id="contenedor_div_validar_pago">
+
+        </div>
     </div>
 
     <div class="row">
@@ -51,13 +47,20 @@
         </div>
     </div>
 
-    <div class="col-lg-12">
-        <a href="http://localhost/personales/metodos_pago/mercado_pago/web-checokut.php" class="btn btn-danger btn-sm">Intentar de nuevo</a>
-    </div>
-
 </div>
 
-<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+<div id="contenedor_modal_frame">
+    <div class="modal" id="modal_frame_mp" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <iframe id="iframe_mp" style="width: 100%; min-height: 500px; max-height: 900px"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="js/jquery-3.4.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
@@ -68,34 +71,44 @@
 
 <script>
 
-    var base_url = 'http://localhost/personales/metodos_pago/mercado_pago/';
-    var url_payment_mp = 'https://www.mercadopago.com.mx/checkout/v1/redirect';
+    var base_url = 'http://localhost/personales/metodos_pago/paguelo_facil/';
 
     $(document).ready(function(){
 
-
+        $(document).on('click','#btn_pagar_pp',function(){
+            $(this).attr('disabled',true).append('<div class="spinner-grow text-dark  spinner-grow-sm" role="status"></div>');
+            PagueloFacil.prepareButton();
+        });
 
     });
 
-    var MercadoPagoJS = {
+    var PagueloFacil = {
 
-        validarPago : function(payment_id){
+        prepareButton : function(){
             $.ajax({
                 type : 'post',
-                url : base_url + 'private/validateOrder.php',
+                url : base_url + 'private/createOrder.php',
                 data : {
-                    payment_id : payment_id
+                    
                 },
                 dataType : 'json',
                 success : function(response){
                     console.log(response);
-                    $('#respuesta_pago_mp').html(response);
+                    if(response.status){
+                        console.log(response);
+                    }else{
+                        alert('no se pudo generar la orden de pago');
+                    }
+                    $('#btn_pagar_pp').removeAttr('disabled');
+                    $('.spinner-grow').remove();
                 },error : function(error){
                     console.log(error);
                     alert('lo siento, ocurrio un error');
+                    $('#btn_pagar_pp').removeAttr('disabled');
+                    $('.spinner-grow').remove();
                 }
             });
-        }
+        },
 
     }
 

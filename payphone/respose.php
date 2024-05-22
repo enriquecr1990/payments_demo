@@ -1,8 +1,12 @@
+<?php
+    $id = $_GET['id'];
+    $clientTransactionId = $_GET['clientTransactionId'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mercado pago</title>
+    <title>PayPhone</title>
     <meta charset="utf-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
@@ -19,31 +23,26 @@
 
     <div class="col-lg-12">
         <div class="alert alert-info">
-            Metdo de pago "mercado pago"
+            Metodo de pago "Payphone"
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-12">
-            <button id="btn_pagar_mp" type="button" class="btn btn-info">Crear orden</button>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12" id="div_link_pago">
-
+            <button id="btn_checar_pp" type="button" class="btn btn-info">checar orden</button>
+            <a id="btn_back_pp" href="/personales/metodos_pago/payphone/" class="btn btn-danger">Atras</a>
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-12" id="contenedor_div_validar_pago">
-
+            <?php var_dump($_POST,$_GET); ?>
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-12">
-            <pre id="respuesta_pago_mp"></pre>
+            <pre id="respuesta_pago_pp"></pre>
         </div>
     </div>
 
@@ -72,48 +71,43 @@
 
 <script>
 
-    var base_url = 'http://localhost/personales/metodos_pago/mercado_pago/';
-    var url_payment_mp = 'https://www.mercadopago.com.mx/checkout/v1/redirect';
+    var base_url = 'http://localhost/personales/metodos_pago/payphone/';
 
     $(document).ready(function(){
 
-        $(document).on('click','#btn_pagar_mp',function(){
+        $(document).on('click','#btn_checar_pp',function(){
             $(this).attr('disabled',true).append('<div class="spinner-grow text-dark  spinner-grow-sm" role="status"></div>');
-            MercadoPagoJS.crearOrden();
+            PayPhoneJS.checkPayment();
         });
 
     });
 
-    var MercadoPagoJS = {
+    var PayPhoneJS = {
 
-        crearOrden : function(){
+        checkPayment : function(){
             $.ajax({
                 type : 'post',
-                url : base_url + 'private/createOrder.php',
+                url : base_url + 'private/validateOrder.php',
                 data : {
-                    //data_comercio : {},
-                    //data_carrito: {},
-                    //data_comprador : {},
+                    id : '<?=$id?>',
+                    clientTxId : '<?=$clientTransactionId?>'
                 },
                 dataType : 'json',
                 success : function(response){
                     console.log(response);
                     if(response.status){
-                        //alert('se obtuvo la orden de pago');
-                        var link_pago = response.init_point != undefined && response.init_point != '' ? response.init_point : url_payment_mp + '?pref_id='+response.id;
-                        setTimeout(function(){
-                            window.location = link_pago;
-                        },2000);
-                        // $('#div_link_pago').html('<a href="'+response.init_point+'" class="btn btn-danger">Pagar</a>');
-                        // $('#iframe_mp').attr('src',response.init_point);
-                        // $('#modal_frame_mp').modal({backdrop: 'static', keyboard: false, focus : true});
-                        // $('#modal_frame_mp').modal('show');
+                        var html_response = '<pre><code>'+JSON.stringify(response.data,null,'\t')+'</code></pre>';
+                        $('#respuesta_pago_pp').html(html_response);
                     }else{
                         alert('no se pudo generar la orden de pago');
                     }
+                    $('#btn_checar_pp').removeAttr('disabled');
+                    $('.spinner-grow').remove();
                 },error : function(error){
                     console.log(error);
                     alert('lo siento, ocurrio un error');
+                    $('#btn_checar_pp').removeAttr('disabled');
+                    $('.spinner-grow').remove();
                 }
             });
         },

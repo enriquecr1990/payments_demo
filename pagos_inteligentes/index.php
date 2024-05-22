@@ -5,7 +5,7 @@ $parameters = [
     "generateTransaction" => [
         "security" => [
             "accountId" => 30423,
-            "token" => "cRaOPkSSdnvswnLvI59#",
+            "token" => "kPlQkheYXIxxFxmJp08@",
         ],
         "infoPayment" => [
             "amount" => 1000,
@@ -32,7 +32,7 @@ $parameters = [
             "photo" => "https://dl.dropboxusercontent.com/s/jghrtm678do5fts/carrito.jpg?dl=0",
             //"cashDiscount" => 0,
             //"expiredCashDiscount" => "2021/12/31",
-            "deliveryAddres" => True,
+            "deliveryAddres" => false,
             "ammountShipping" => 0,
         ],
     ]
@@ -87,9 +87,7 @@ $datosCodificados = json_encode($parameters);
 # Url donde se hace la petición...
 $url = "https://apiecommerce.pagosinteligentes.com:8070/CheckOut/MethodGenerateTransaction";
 $ch = curl_init($url);
-
-# Ahora le ponemos todas las opciones
-curl_setopt_array($ch, array(
+$dataCh = array(
     // Indicar que vamos a hacer una petición POST
     CURLOPT_CUSTOMREQUEST => "POST",
     // Justo aquí ponemos los datos dentro del cuerpo
@@ -104,10 +102,16 @@ curl_setopt_array($ch, array(
     ),
     # indicar que regrese los datos, no que los imprima directamente
     CURLOPT_RETURNTRANSFER => true,
-));
+);
+# Ahora le ponemos todas las opciones
+curl_setopt_array($ch, $dataCh);
 # Se realiza la peticion
 $resultado = curl_exec($ch);
-var_dump(json_decode($resultado));
+echo '<pre>';
+print_r($dataCh);
+echo '</pre><br>*****<br>';
+echo '<pre>';
+print_r(json_decode($resultado));
 # Si el código es 200, es decir, HTTP_OK
 $codigoRespuesta = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 if($codigoRespuesta === 200){

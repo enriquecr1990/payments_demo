@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mercado pago</title>
+    <title>PayPhone</title>
     <meta charset="utf-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
@@ -19,13 +19,13 @@
 
     <div class="col-lg-12">
         <div class="alert alert-info">
-            Metdo de pago "mercado pago"
+            Metodo de pago "Payphone"
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-12">
-            <button id="btn_pagar_mp" type="button" class="btn btn-info">Crear orden</button>
+            <button id="btn_pagar_pp" type="button" class="btn btn-info">Crear orden</button>
         </div>
     </div>
 
@@ -72,21 +72,20 @@
 
 <script>
 
-    var base_url = 'http://localhost/personales/metodos_pago/mercado_pago/';
-    var url_payment_mp = 'https://www.mercadopago.com.mx/checkout/v1/redirect';
+    var base_url = 'http://localhost/personales/metodos_pago/payphone/';
 
     $(document).ready(function(){
 
-        $(document).on('click','#btn_pagar_mp',function(){
+        $(document).on('click','#btn_pagar_pp',function(){
             $(this).attr('disabled',true).append('<div class="spinner-grow text-dark  spinner-grow-sm" role="status"></div>');
-            MercadoPagoJS.crearOrden();
+            PayPhoneJS.prepareButton();
         });
 
     });
 
-    var MercadoPagoJS = {
+    var PayPhoneJS = {
 
-        crearOrden : function(){
+        prepareButton : function(){
             $.ajax({
                 type : 'post',
                 url : base_url + 'private/createOrder.php',
@@ -99,21 +98,17 @@
                 success : function(response){
                     console.log(response);
                     if(response.status){
-                        //alert('se obtuvo la orden de pago');
-                        var link_pago = response.init_point != undefined && response.init_point != '' ? response.init_point : url_payment_mp + '?pref_id='+response.id;
-                        setTimeout(function(){
-                            window.location = link_pago;
-                        },2000);
-                        // $('#div_link_pago').html('<a href="'+response.init_point+'" class="btn btn-danger">Pagar</a>');
-                        // $('#iframe_mp').attr('src',response.init_point);
-                        // $('#modal_frame_mp').modal({backdrop: 'static', keyboard: false, focus : true});
-                        // $('#modal_frame_mp').modal('show');
+                        window.location = response.data.payWithCard;
                     }else{
                         alert('no se pudo generar la orden de pago');
                     }
+                    $('#btn_pagar_pp').removeAttr('disabled');
+                    $('.spinner-grow').remove();
                 },error : function(error){
                     console.log(error);
                     alert('lo siento, ocurrio un error');
+                    $('#btn_pagar_pp').removeAttr('disabled');
+                    $('.spinner-grow').remove();
                 }
             });
         },
