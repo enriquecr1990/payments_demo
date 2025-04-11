@@ -28,11 +28,25 @@
             </div>
         </div>
     </div>
+    <hr>
+    <div class="row">
+        <div class="form-group col-lg-4">
+            <button class="btn btn-sm btn-success" id="btn_pagar_bamboo">Procesar pago</button>
+        </div>
+    </div>
+    <hr>
+    <div class="row" id="div_validar_pago" style="display:none;">
+        <div class="form-group col-lg-4">
+            <input type="hidden" id="purchase_id">    
+            <button class="btn btn-sm btn-info" id="btn_validar_bamboo">Validar pago</button>
+        </div>
+    </div>
+    <hr>
     <div class="row">
         <div class="form-group col-lg-12">
             <form id="form_to_bamboo">
                 <input type="hidden" name="PWToken" id="PWToken" />
-                <button id="btn_pagar_bamboo" type="button" class="btn btn-danger">Pagar</button>
+                <button id="btn_pagar_bamboo_old" type="button" class="btn btn-danger">Pagar</button>
             </form>
         </div>
     </div>

@@ -91,7 +91,13 @@ class Testing {
 
     public function formatNumero(){
         $numero = '100.98';
-        var_dump($numero,$numero*100);
+        var_dump($numero,(int)($numero*100),$numero*100);
+    }
+
+    public function implodePays(){
+        $string = '/carpeta/sub_carpeta/otra_mas/archivo.jpg|/carpeta/sub_carpeta/otra_mas/archivo2.jpg|/carpeta/sub_carpeta/otra_mas/archivo.png';
+        $stamps = explode('|',$string);
+        var_dump($stamps);
     }
 
 }
