@@ -48,7 +48,7 @@ class Bcp{
                     'teller' => 'online', //nombre o identificador de la caja
                     'phoneNumber' => '2467575099',
                     'publicToken' => $this->params['public_token'],
-                    'expiration' => '01/00:00',//expiracion del qr dia/hora:minutos
+                    'expiration' => '00/00:05',//expiracion del qr dia/hora:minutos
                ];
                
                $this->pfxToPem();

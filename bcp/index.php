@@ -49,7 +49,7 @@
         });
     });
 
-    var BCP = {
+    var BCP = { 
 
         prepareButton : function(){
             $.ajax({

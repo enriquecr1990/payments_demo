@@ -100,4 +100,41 @@ class Testing {
         var_dump($stamps);
     }
 
+    public function img_png(){
+        try{
+            $pathApp = __DIR__;
+            $pathImgOriginal = $pathApp.'/extras/imagenes/12_24_34-diapositiva1.png';
+            $pathImgEdit = $pathApp.'/extras/imagenes/12_24_34-diapositiva1editPHP.png';
+            //validamos el tipo de extension del archivo
+            $dataImg = pathinfo($pathImgOriginal);
+            
+            // Cargar la imagen original
+            //swith para el tipo de imagen
+            switch($dataImg['extension']){
+                case 'jpg':case 'JPG':case 'jpeg': case 'JPEG':
+                    $originalImage = imagecreatefromjpeg($pathImgOriginal);
+                    break;
+                case 'png':case 'PNG':
+                    $originalImage = imagecreatefrompng($pathImgOriginal);
+                    break;
+                case 'bmp':case 'BMP':
+                    $originalImage = imagecreatefrombmp($pathImgOriginal);
+                    break;
+            }
+
+            // Crear una nueva imagen con las mismas dimensiones
+            $blanco = imagecolorallocate($originalImage,255,255,255);
+            imagecolortransparent($originalImage,$blanco);
+            imagepng($originalImage,$pathImgEdit);
+            imagedestroy($originalImage);
+
+            echo 'Se tranformo la imagen con exito';
+            echo '<br>Archivo '.$dataImg['basename']. ' -> '.$dataImg['filename'].'editPHP.png';
+            echo '<br><a href="http://metodospago.local.com/extras/imagenes/'.$dataImg['basename'].'" target="_blank">original</a>';
+            echo '<br><a href="http://metodospago.local.com/extras/imagenes/'.$dataImg['filename'].'editPHP.png" target="_blank">editado</a>';
+        }catch(Exception $ex){
+            echo 'Error: -> '.$ex->getMessage(). ' - '.$ex->getFile(). ' - '.$ex->getLine();exit;
+        }
+    }
+
 }
