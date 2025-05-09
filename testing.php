@@ -3,10 +3,26 @@
 //Testing::cifradoBitoo();
 //Testing::dateISO8601();
 $funcion = $_GET['funcion'];
-$testing = new Testing();
-$testing->$funcion();
 
+if(isset($_GET['funcion'])){
+    $params = $_GET;
+    $funcion = $params['funcion'];
+    unset($params['funcion']);
+    $testing = new Testing($params);
+    $formato = $testing->$funcion($params);
+    var_dump($formato);
+}else{
+    echo 'Error 400 - falta funcion en la URL';
+}
+
+$testing->$funcion();
 class Testing {
+
+    private $params;
+
+    function __construct($params = array()){
+        $this->params = $params;
+    }
 
     public function cifradoBitoo(){
         $strleng = '1173';
@@ -137,4 +153,17 @@ class Testing {
         }
     }
 
+    public function formatoExpiracion($params = array()){
+        $expiration = '';
+        $timeQR = isset($params['tiempo']) ? (int)$params['tiempo'] : 5;
+        $dias = floor($timeQR / (24*60)); //calculamos los dias contenidos en el 
+        $diasFormat = str_pad($dias,2,"0",STR_PAD_LEFT);
+        $minutosRestanteDias = $timeQR % (24*60);
+        $horas = floor($minutosRestanteDias / 60);
+        $horasFormat = str_pad($horas,2,"0",STR_PAD_LEFT);
+        $minutos = $timeQR % 60;
+        $minutosFormat = str_pad($minutos,2,"0",STR_PAD_LEFT);
+        $expiration = $diasFormat.'/'.$horasFormat.':'.$minutosFormat;
+        return $expiration;
+    }
 }
