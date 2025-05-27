@@ -2,3 +2,5 @@
 .git
 .idea
 .github
+.DS_Store
+*.pem
