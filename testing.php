@@ -119,10 +119,12 @@ class Testing {
     public function img_png(){
         try{
             $pathApp = __DIR__;
-            $pathImgOriginal = $pathApp.'/extras/imagenes/12_24_34-diapositiva1.png';
+            $pathImgOriginal = $pathApp.'/extras/imagenes/diapositiva1.png';
             $pathImgEdit = $pathApp.'/extras/imagenes/12_24_34-diapositiva1editPHP.png';
             //validamos el tipo de extension del archivo
             $dataImg = pathinfo($pathImgOriginal);
+            $infoImage = image($pathImgOriginal);
+            var_dump($dataImg,$infoImage);exit;
             
             // Cargar la imagen original
             //swith para el tipo de imagen
@@ -166,4 +168,10 @@ class Testing {
         $expiration = $diasFormat.'/'.$horasFormat.':'.$minutosFormat;
         return $expiration;
     }
+    public function dataBcpAuth(){
+        $usuario = 'OMNILIFE_USER';
+        $public_token = 'C9F13996-C678-4164-B54E-3195426AFEC5';
+        echo base64_encode($usuario.':'.$public_token);
+    }
+
 }
