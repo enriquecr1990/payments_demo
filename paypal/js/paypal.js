@@ -26,7 +26,7 @@ var PayPal = {
                 postData.append('order','1000010000');
                 postData.append('type','type_order');
                 postData.append('_token','1928ucr192m3ur192mp1928cump3mdpjdp82cm19jcpm8');
-                return fetch(base_url + 'private/createOrder', {
+                return fetch(base_url + 'private/createOrder.php', {
                     method: 'POST',
                     body : postData
                 }).then(function(res) {
@@ -39,7 +39,7 @@ var PayPal = {
 
             // Finalize the transaction
             onApprove: function(data, actions) {
-                return fetch(base_url + 'private/captureOrder?order_id='+data.orderID, {
+                return fetch(base_url + 'private/captureOrder.php?order_id='+data.orderID, {
                     method: 'post',
                 }).then(function(res) {
                     return res.json();

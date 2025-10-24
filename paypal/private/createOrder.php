@@ -1,5 +1,4 @@
 <?php
-
 include "PayPal.php";
 
 $paypal = new PayPal();

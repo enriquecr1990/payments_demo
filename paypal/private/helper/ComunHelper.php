@@ -4,17 +4,21 @@ class ComunHelper
 {
 
     public static function curlopt($url_curl,$options){
-        $curl = curl_init($url_curl);
-        curl_setopt_array($curl,$options);
-        $response = curl_exec($curl);
-        $error = curl_error($curl);
-        curl_close($curl);
-        if($error){
-            $return = $error;
-        }else{
-            $return = $response;
+        try{
+            $curl = curl_init($url_curl);
+            curl_setopt_array($curl,$options);
+            $response = curl_exec($curl);
+            $error = curl_error($curl);
+            curl_close($curl);
+            if($error){
+                $return = $error;
+            }else{
+                $return = $response;
+            }
+            return $return;
+        }catch(Exception $ex){
+            var_dump($ex->getMessage(),$ex->getFile(),$ex->getLine());exit;
         }
-        return $return;
     }
 
     public static function base_url(){

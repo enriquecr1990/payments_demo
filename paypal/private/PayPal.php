@@ -1,7 +1,6 @@
 <?php
 
-include __DIR__.'\helper\ComunHelper.php';
-
+include __DIR__.'/helper/ComunHelper.php';
 class PayPal
 {
 
@@ -42,7 +41,6 @@ class PayPal
             ),
             CURLOPT_USERPWD => $this->clientId.':'.$this->secretId
         );
-
         //return $this->curlopt($url,$options);
         $return = ComunHelper::curlopt($url,$options);
         return $return;

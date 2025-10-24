@@ -5,7 +5,7 @@ $parameters = [
     "generateTransaction" => [
         "security" => [
             "accountId" => 30423,
-            "token" => "kPlQkheYXIxxFxmJp08@",
+            "token" => "cRaOPkSSdnvswnLvI59#",
         ],
         "infoPayment" => [
             "amount" => 1000,
