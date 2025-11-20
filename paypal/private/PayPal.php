@@ -101,23 +101,47 @@ class PayPal
         return ComunHelper::curlopt($url,$options);
     }
 
-    /*public function createPayment($accessToken){
-        $url = $this->host.'/v1/payments/payment';
-        $data = $this->getDataPayment();
-        $options = array(
-            CURLOPT_POST => true,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_HEADER => false,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer '.$accessToken,
-                'Accept: application/json',
-                'Content-type: application/json'
-            ),
-            CURLOPT_POSTFIELDS => $data
-        );
-        return ComunHelper::curlopt($url,$options);
-    }*/
+    /** funciones para las pruebas de vault */
+    public function vaultPayment($accessToken){
+        try{
+            $url = $this->host.'/v3/vault/setup-tokens';
+            $data = $this->getDataPaymentVault();
+            $options = array(
+                CURLOPT_POST => true,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_HEADER => false,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer '.$accessToken,
+                    'Content-type: application/json',
+                ),
+                CURLOPT_POSTFIELDS => $data,
+            );
+            return ComunHelper::curlopt($url,$options);
+        }catch(Exception $ex){
+            throw $ex;
+        }
+    }
+
+    public function validarVaultPayment($accessToken,$referencia){
+        try{
+            $url = $this->host.'/v3/vault/setup-tokens/'.$referencia;
+            $options = array(
+                // CURLOPT_POST => true,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_HEADER => false,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer '.$accessToken,
+                    'Content-type: application/json',
+                ),
+                // CURLOPT_POSTFIELDS => '',
+            );
+            return ComunHelper::curlopt($url,$options);
+        }catch(Exception $ex){
+            return ['error' => $ex->getMessage(),'status' => false ];
+        }
+    }
 
     /**
      * apartado de funciones privadas
@@ -185,6 +209,49 @@ class PayPal
         return json_encode($payment,JSON_UNESCAPED_SLASHES);
     }
 
+    private function getDataPaymentVault(){
+        $payment = [
+            "payment_source" => [
+                "paypal" => [
+                    "description" => "Pruebas para pagos por vault",
+                    "shipping" => [
+                        "name" => [
+                            "full_name" => "Enrique Corona Developer"
+                        ],
+                        'address' => [
+                            'address_line_1' => 'Villa Cardel 11, Sta Maria Acuitlapilco', //shipping line 1
+                            'address_line_2' => '', //shipping line 2
+                            'admin_area_2' => 'Tlaxcala', //shipping city
+                            'admin_area_1' => 'Tlaxcala', //shipping state
+                            'postal_code' => '90110',
+                            'country_code' => $this->countryCode,
+                        ]
+                    ],
+                    "permit_multiple_payment_tokens" => false,
+                    "usage_pattern" => "IMMEDIATE",
+                    "usage_type" => "MERCHANT",
+                    "customer_type" => "CONSUMER",
+                    "experience_context" => [
+                        "user_action" => "SETUP_NOW",
+                        "shipping_preference" => "SET_PROVIDED_ADDRESS",
+                        "payment_method_preference" => "IMMEDIATE_PAYMENT_REQUIRED",
+                        "brand_name" => "Desarrollo local paypal vaulting",
+                        // "locale" => $this->locale,
+                        "locale" => "en-US",
+                        "return_url" => "http://broker.local.com/paypal/payment_success.php",
+                        "cancel_url" => "http://broker.local.com/paypal/payment_cancel.php",
+                        "app_switch_context" => [
+                            "mobile_web" => [
+                                "return_flow" => "AUTO",
+                                "buyer_user_agent" => "Mozilla/5.0 (iPhone; CPU iPhone OS 16_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Mobile/15E148 Safari/604.1"
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        return json_encode($payment,JSON_UNESCAPED_SLASHES);
+    }
     private function getItemsSell(){
         $items = [
             [
