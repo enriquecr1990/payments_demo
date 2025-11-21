@@ -21,7 +21,7 @@ var Cs = {
         $('#json_resultado_pago').html(Cs.html_spinner());
         $.ajax({
             method: 'post',
-            url : 'private/process_payment',
+            url : 'private/process_payment.php',
             dataType: 'json',
             data : {},
             success : function (response) {

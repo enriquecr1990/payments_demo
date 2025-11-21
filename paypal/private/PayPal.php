@@ -144,6 +144,29 @@ class PayPal
     }
 
     /**
+     * funciones para las pruebas con subscripciones
+     */
+    public function listadoProductosSubscripcion($accessToken){
+        $url = $this->host.'/v1/catalogs/products';
+        $options = array(
+            // CURLOPT_POST => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HEADER => false,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer '.$accessToken,
+                'Content-type: application/json',
+            ),
+            // CURLOPT_POSTFIELDS => '',
+        );
+        return ComunHelper::curlopt($url,$options);
+    }
+
+    public function crearProductoSubscripcion(){
+
+    }
+
+    /**
      * apartado de funciones privadas
      */
     private function getDataPayment(){
