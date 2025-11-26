@@ -10,8 +10,7 @@ switch ($operacion){
           $respuesta = $ppSubs->listadoProductosSubscripcion();
           break;
 }
-
-echo json_encode($respuesta);exit;
+echo $respuesta;exit;
 
 class PaypalSubscriptions {
 

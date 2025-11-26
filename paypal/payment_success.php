@@ -30,6 +30,7 @@
         <div class="col-12 text-left">
             <input type="hidden" id="approval_token_id" value="<?=$_GET['approval_token_id']?>">
             <button id="btn_validar_pago" class="btn btn-success">Validar</button>
+            <a href="/paypal/vaulting.php" class="btn btn-dark">Otro pago</a>
         </div>
     </div>
     <hr>

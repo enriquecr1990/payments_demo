@@ -8,6 +8,10 @@ $(document).ready(function(){
         PayPal.validar_pago_vault();
     });
 
+    $(document).on('click','#btn-listado-subscripciones',function(){
+        PayPal.listado_subscripciones();
+    });
+
 });
 
 var PayPal = {
@@ -31,7 +35,9 @@ var PayPal = {
                 //simulemos que todo paso bien
                 $('#pago_vault_success').fadeIn();
                 $('#url_redirect').html(response.vault.links[1].href);
-                var html_link = '<a href="'+response.vault.links[1].href+'" class="">Ir a PayPal</a>';
+                var html_link = '<div class="form-group col-12">'+
+                    '<a href="'+response.vault.links[1].href+'" class="btn btn-info" role="button">Ir a PayPal</a>'+
+                '</div>';
                 $('#pago_vault_success').append(html_link);
                 // setTimeout(function(){
                 //     window.location.href = response.vault.links[1].href;
@@ -56,6 +62,24 @@ var PayPal = {
                 console.log(response);
                 //simulemos que todo paso bien
                 renderJson(response,'#json_resultado_pago');
+            },
+            error : function () {
+                alert('hubo un error uuuu dile al programador');
+            }
+        });
+    },
+
+    listado_subscripciones : function(){
+        $('#conteiner-list-subscripciones').html(PayPal.html_spinner());
+        $.ajax({
+            method: 'post',
+            url : 'private/subscripcion.php',
+            dataType: 'json',
+            data : {
+                operacion : 'listado'
+            },
+            success : function (response) {
+                console.log(response);
             },
             error : function () {
                 alert('hubo un error uuuu dile al programador');

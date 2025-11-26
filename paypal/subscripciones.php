@@ -17,33 +17,25 @@
 
 <div class="container">
      <div class="row mt-1">
+          <div class="form-group col-12">
+               <h5>Listado de subscripciones</h5>
+          </div>
+          <div class="form-group col-12 tex-left">
+               <button id="btn-listado-subscripciones" class="btn btn-secondary">Buscar Subs</button>
+          </div>
+     </div>
+     <div class="row mt-1">
           <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
-               <div id="conteiner-list-brokers">
-                    <div class="list-group">
-                         <li class="list-group-item" aria-current="true">
-                              <input type="radio" name="banco"> <img src="https://images.stripeassets.com/fzn2n1nzq965/4vVgZi0ZMoEzOhkcv7EVwK/8cce6fdcf2733b2ec8e99548908847ed/favicon.png?w=96&h=96" alt="" width="20px"> Stripe
-                         </li>
-                         <li class="list-group-item">
-                              <input type="radio" name="banco" checked="checked"> <img src="https://www.paypalobjects.com/webstatic/developer/favicons/pp32.png" alt="" width="20px"> Paypal
-                         </li>
-                         <li class="list-group-item">
-                              <input type="radio" name="banco"> <img src="https://tse2.mm.bing.net/th/id/OIP.1K1ESshpSWIn040P1g0RqwAAAA?rs=1&pid=ImgDetMain&o=7&rm=3" alt="" width="20px"> Mercado pago
-                         </li>
-                    
-                    </div>
+               <div class="list-group" id="conteiner-list-subscripciones">
+                    <li class="list-group-item" aria-current="true">
+                         <input type="radio" name="banco"> <img src="https://images.stripeassets.com/fzn2n1nzq965/4vVgZi0ZMoEzOhkcv7EVwK/8cce6fdcf2733b2ec8e99548908847ed/favicon.png?w=96&h=96" alt="" width="20px"> Stripe
+                    </li>
                </div>
           </div>
      </div>
      <div class="row mt-1">
           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right" id="response_paypal">
                <button type="button" id="btn_paypal_vault" class="btn" style="color: white; background-color: blueviolet;">Continuar</button>
-          </div>
-     </div>
-
-     <div class="row mt-1" id="pago_vault_success" style="display:none">
-          <div class="alert alert-info">
-               Se genero satisfactoriamente el vaulting
-               <span class="badge badge-info" id="url_redirect"></span>
           </div>
      </div>
 </div>
