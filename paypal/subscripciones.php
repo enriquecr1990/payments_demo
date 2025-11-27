@@ -1,60 +1,89 @@
-<?php include_once ('private/helper/ComunHelper.php'); ?>
+<?php include_once('private/helper/ComunHelper.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
      <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
      <meta name="viewport" content="width=device-width, initial-scale=1">
 
-     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
      <link rel="icon" sizes="32x32" href="https://www.paypalobjects.com/webstatic/developer/favicons/pp32.png">
 
      <title>PayPal - subscripciones</title>
 </head>
+
 <body>
 
-<div class="container">
-     <div class="row mt-1">
-          <div class="form-group col-12">
-               <h5>Listado de subscripciones</h5>
-          </div>
-          <div class="form-group col-12 tex-left">
-               <button id="btn-listado-subscripciones" class="btn btn-secondary">Buscar Subs</button>
-          </div>
-     </div>
-     <div class="row mt-1">
-          <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
-               <div class="list-group" id="conteiner-list-subscripciones">
-                    <li class="list-group-item" aria-current="true">
-                         <input type="radio" name="banco"> <img src="https://images.stripeassets.com/fzn2n1nzq965/4vVgZi0ZMoEzOhkcv7EVwK/8cce6fdcf2733b2ec8e99548908847ed/favicon.png?w=96&h=96" alt="" width="20px"> Stripe
-                    </li>
+     <div class="container">
+
+          <h1 class="mt-5 mb-3">Demo PayPal Subscripciones</h1>
+
+          <div class="accordion" id="accordionExample">
+               <div class="accordion-item">
+                    <h2 class="accordion-header">
+                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                              data-bs-target="acord-productos" aria-expanded="true" aria-controls="acord-productos">
+                              Productos
+                         </button>
+                    </h2>
+                    <div id="acord-productos" class="accordion-collapse collapse show"
+                         data-bs-parent="#accordionExample">
+                         <div class="accordion-body">
+                              <?php include('subscripcion/tablero_plan.php'); ?>
+                         </div>
+                    </div>
+               </div>
+               <div class="accordion-item">
+                    <h2 class="accordion-header">
+                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                              data-bs-target="#collapsePlanes" aria-expanded="false" aria-controls="collapsePlanes">
+                              Planes
+                         </button>
+                    </h2>
+                    <div id="collapsePlanes" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                         <div class="accordion-body">
+
+                         </div>
+                    </div>
+               </div>
+               <div class="accordion-item">
+                    <h2 class="accordion-header">
+                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                              data-bs-target="#collapseSubscripciones" aria-expanded="false"
+                              aria-controls="collapseSubscripciones">
+                              Subscripciones
+                         </button>
+                    </h2>
+                    <div id="collapseSubscripciones" class="accordion-collapse collapse"
+                         data-bs-parent="#accordionExample">
+                         <div class="accordion-body">
+
+                         </div>
+                    </div>
                </div>
           </div>
-     </div>
-     <div class="row mt-1">
-          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right" id="response_paypal">
-               <button type="button" id="btn_paypal_vault" class="btn" style="color: white; background-color: blueviolet;">Continuar</button>
-          </div>
-     </div>
-</div>
 
-<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+     </div>
+
+     <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>-->
-<script src="js/jquery-3.4.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-<!-- scritps para el pago -->
-<script src="js/paypal_vs.js"></script>
-<script>
-    var base_url = '<?=ComunHelper::base_url()?>';
-</script>
+     <script src="js/jquery-3.4.1.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+          integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+          crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+          integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+          crossorigin="anonymous"></script>
+     <!-- scritps para el pago -->
+     <script src="js/paypal_vs.js"></script>
+     <script>
+          var base_url = '<?= ComunHelper::base_url() ?>';
+     </script>
 
 </body>
+
 </html>
