@@ -24,15 +24,14 @@
           <div class="accordion" id="accordionExample">
                <div class="accordion-item">
                     <h2 class="accordion-header">
-                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                              data-bs-target="acord-productos" aria-expanded="true" aria-controls="acord-productos">
+                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                              data-bs-target="#collapseProductos" aria-expanded="false" aria-controls="collapseProductos">
                               Productos
                          </button>
                     </h2>
-                    <div id="acord-productos" class="accordion-collapse collapse show"
-                         data-bs-parent="#accordionExample">
+                    <div id="collapseProductos" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                          <div class="accordion-body">
-                              <?php include('subscripcion/tablero_plan.php'); ?>
+                              <?php include('subscripcion/tablero_productos.php'); ?>
                          </div>
                     </div>
                </div>
@@ -79,7 +78,7 @@
           integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
           crossorigin="anonymous"></script>
      <!-- scritps para el pago -->
-     <script src="js/paypal_vs.js"></script>
+     <script src="js/paypal_subs.js"></script>
      <script>
           var base_url = '<?= ComunHelper::base_url() ?>';
      </script>
