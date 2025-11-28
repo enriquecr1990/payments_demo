@@ -69,17 +69,7 @@
 
      </div>
 
-     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-          <div class="toast-header">
-               <img src="..." class="rounded me-2" alt="...">
-               <strong class="me-auto">Bootstrap</strong>
-               <small class="text-body-secondary">11 mins ago</small>
-               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-          <div class="toast-body">
-               Hello, world! This is a toast message.
-          </div>
-     </div>
+     <div class="toast-container top-0 end-0 p-3" id="contenedor_mensajes_toast"></div>
 
      <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

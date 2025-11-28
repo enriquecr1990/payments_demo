@@ -1,10 +1,11 @@
 $(document).ready(function(){
 
-    $(document).on('click','#btn-listado-subscripciones',function(){
-    });
-
     $(document).on('click','#btn_guardar_producto',function(){
         PayPal.guardar_producto();
+    });
+
+    $(document).on('click','#btn-buscar-planes',function(){
+
     });
 
     PayPal.listado_subscripciones();
@@ -34,8 +35,25 @@ var PayPal = {
         }
     },
 
-    mensajes_sistema : function(mensajes,tipo){
-        let class_tipo = ''
+    mensajes_sistema : function(mensajes){
+        var html_msgs = ''+
+            '<div id="msg_toats" class="toast" role="alert" aria-live="polite" aria-atomic="true">'+
+                '<div class="toast-header">'+
+                    '<strong class="me-auto">Mensajes del sistema</strong>'+
+                    '<small class="text-body-secondary">11 mins ago</small>'+
+                '</div>'+
+                '<div class="toast-body">';
+        mensajes.forEach(function(msg){
+            html_msgs += '<li>'+msg+'</li>';
+        });
+        html_msgs += '</div>'+
+            '</div>';
+        $('#contenedor_mensajes_toast').html(html_msgs);
+        $('#msg_toats').show();
+        setTimeout(function(){
+            $('#msg_toats').hide();
+            setTimeout(function(){$('#contenedor_mensajes_toast').html('');},500);
+        },7000);
     },
 
     listado_subscripciones : function(){
@@ -49,7 +67,7 @@ var PayPal = {
             },
             success : function (response) {
                 if(response.status != 'ok'){
-
+                    PayPal.mensajes_sistema(response.message);
                 }else{
                     $('#rows_productos_paypal').html(PayPal.parse_html_productos(response.data.productos));
                 }
@@ -86,11 +104,11 @@ var PayPal = {
             dataType : 'json',
             data : $('#form_producto').serialize()+'&operacion=agregar_producto',
             success : function(response){
-                console.log(response);
-                PayPal.modal_process('#modal_form_producto',false);
                 if(response.status == 'ok'){
+                    PayPal.modal_process('#modal_form_producto',false);
                     PayPal.listado_subscripciones();
                 }
+                PayPal.mensajes_sistema(response.message);
             },
             error : function(error){
                 console.log(error);
