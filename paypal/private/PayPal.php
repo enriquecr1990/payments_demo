@@ -162,8 +162,60 @@ class PayPal
         return ComunHelper::curlopt($url,$options);
     }
 
-    public function crearProductoSubscripcion(){
+    public function crearProductoSubscripcion($post,$accessToken){
+        $url = $this->host.'/v1/catalogs/products';
+        $postfields = json_encode([
+            'name' => $post['nombre_producto'],
+            'description' => $post['descripcion_producto'],
+            'type' => 'SERVICE',
+            'category' => 'AFFILIATED_AUTO_RENTAL',
+            'image_url' => 'https://cdn.omnilife.com/public/uploads/images/portal/logos/omnilife/2025/OmnilifeMorado-ESP-25.svg',
+            'home_url' => 'https://portal.omnilife.com/'
+        ],JSON_UNESCAPED_SLASHES);
+        $options = array(
+            CURLOPT_POST => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HEADER => false,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer '.$accessToken,
+                'Content-type: application/json',
+            ),
+            CURLOPT_POSTFIELDS => $postfields,
+        );
+        return ComunHelper::curlopt($url,$options);
+    }
 
+    public function listarPlanSubscripcion($accessToken){
+        $url = $this->host.'/v1/billing/plans';
+        $options = array(
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HEADER => false,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer '.$accessToken,
+                'Content-type: application/json',
+            ),
+            // CURLOPT_POSTFIELDS => '',
+        );
+        return ComunHelper::curlopt($url,$options);
+    }
+
+    public function crearPlanSubscripcion($params,$accessToken){
+        $url = $this->host.'/v1/billing/plans';
+        $postfields = $this->getDataPlanSubscripcion($params);
+        $options = array(
+            CURLOPT_POST => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HEADER => false,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer '.$accessToken,
+                'Content-type: application/json',
+            ),
+            CURLOPT_POSTFIELDS => $postfields,
+        );
+        return ComunHelper::curlopt($url,$options);   
     }
 
     /**
@@ -311,35 +363,43 @@ class PayPal
         return $items;
     }
 
-    private function getDataOrder(){
-        $data =  array(
-            'intent' => 'CAPTURE',
-            'purchase_units' =>
-                array(
-                    array(
-                        'amount' =>
-                            array(
-                                'currency_code' => 'MXN',
-                                'value' => '100.50'
-                            )
-                    )
-                )
-        );
-        return json_encode($data,JSON_UNESCAPED_SLASHES);
-    }
-
-    private function curlopt($url_curl,$options){
-        $curl = curl_init($url_curl);
-        curl_setopt_array($curl,$options);
-        $response = curl_exec($curl);
-        $error = curl_error($curl);
-        curl_close($curl);
-        if($error){
-            $return = $error;
-        }else{
-            $return = $response;
-        }
-        return $return;
+    private function getDataPlanSubscripcion($params){
+        $plan = [
+            "product_id" => $params['id_producto'],
+            "name" => $params['nombre_plan'],
+            "description" => $params['descripcion_plan'],
+            "billing_cycles" => [
+                [
+                    "frequency" => [
+                        "interval_unit" => $params['frecuencia_plan'],   // frecuencia DAY, WEEK, MONTH, YEAR
+                        "interval_count" => 1, //cada cuantos intervalos se cobra
+                    ],
+                    "tenure_type" => "REGULAR", //si es que aplica como plan normal o como version de prueba, por modelo de negocio para el omni sera regular
+                    "sequence" => 1,
+                    "total_cycles" => $params['periodo_plan'],            // periocidad del plan, 0 = sin vencimiento/indefinido, 12 = 12 cobros conforme a la frecuencia
+                    "pricing_scheme" => [
+                        "fixed_price" => [
+                            "value" => $params['monto_plan'], //precio del plan, cargo conforme a la frecuencia
+                            "currency_code" => $this->currency //moneda de cobro
+                        ]
+                    ]
+                ]
+            ],
+            "payment_preferences" => [
+                "auto_bill_outstanding" => true,
+                "setup_fee" => [
+                    "value" => "0",
+                    "currency_code" => $this->currency
+                ],
+                "setup_fee_failure_action" => "CONTINUE",
+                "payment_failure_threshold" => 3
+            ],
+            "taxes" => [
+                "percentage" => "0",
+                "inclusive" => false
+            ]
+        ];
+        return json_encode($plan,JSON_UNESCAPED_SLASHES);
     }
 
 }

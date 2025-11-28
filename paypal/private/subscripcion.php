@@ -4,13 +4,53 @@ include_once 'PayPal.php';
 
 $operacion = $_POST['operacion'];
 $ppSubs = new PaypalSubscriptions();
-
+http_response_code(200);
 switch ($operacion){
-     case 'listado':
-          $respuesta = $ppSubs->listadoProductosSubscripcion();
+     case 'listado_producto':
+          $peticion = $ppSubs->listadoProductosSubscripcion();
+          $respuesta = [
+               'status' => 'ok',
+               'message' => ['Operacion con exito','El listado de productos desde paypal se obtuvo correctamente'],
+               'data' => ['productos' => $peticion->products]
+          ];
+          break;
+     case 'agregar_producto':
+          $producto_nuevo = $ppSubs->crearProductoSubscripcion();
+          $respuesta = [
+               'status' => 'ok',
+               'message' => ['Operacion con exito','Se guardo el producto en paypal correctamente'],
+               'data' => ['producto' => $producto_nuevo]
+          ];
+          break;
+     case 'listado_plan':
+          $planes = $ppSubs->listarPlanSubscripcion();
+          $respuesta = [
+               'status' => 'ok',
+               'message' => ['Operacion con exito','el listado de planes desde paypal se obtuvo correctamente'],
+               'data' => [
+                    'planes' => $planes
+               ]
+          ];
+          break;
+     case 'agregar_plan':
+          $plan_nuevo = $ppSubs->crearPlanSubscripcion();
+          $respuesta = [
+               'status' => 'ok',
+               'message' => ['Operacion con exito','el listado de planes desde paypal se obtuvo correctamente'],
+               'data' => [
+                    'planes' => $plan_nuevo
+               ]
+          ];
+          break;
+     default:
+          http_response_code(404);
+          $respuesta = [
+               'status' => 'not_found',
+               'message' => ['pagina no encontrada'],
+          ];
           break;
 }
-echo $respuesta;exit;
+echo json_encode($respuesta);exit;
 
 class PaypalSubscriptions {
 
@@ -19,7 +59,7 @@ class PaypalSubscriptions {
 
      function __construct(){
           $this->paypal = new PayPal();
-          $responseToken = json_decode($this->paypal->getAccessToken());
+          $responseToken = $this->paypal->getAccessToken();
           $this->accessToken = $responseToken->access_token;
      }
      public function listadoProductosSubscripcion(){
@@ -27,8 +67,18 @@ class PaypalSubscriptions {
      }
 
      public function crearProductoSubscripcion(){
-
+          $post = $_POST;
+          unset($post['operacion']);//quitamos el parametro de operacion para que no llegue al objeto de paypal
+          return $this->paypal->crearProductoSubscripcion($post,$this->accessToken);
      }
 
+     public function listarPlanSubscripcion(){
+          return $this->paypal->listarPlanSubscripcion($this->accessToken);
+     }
 
+     public function crearPlanSubscripcion(){
+          $post = $_POST;
+          unset($post['operacion']);//quitamos el parametro de operacion para que no llegue al objeto de paypal
+          return $this->paypal->crearProductoSubscripcion($post,$this->accessToken);
+     }
 }

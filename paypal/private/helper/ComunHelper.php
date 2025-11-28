@@ -15,7 +15,7 @@ class ComunHelper
             }else{
                 $return = $response;
             }
-            return $return;
+            return json_decode($return);
         }catch(Exception $ex){
             var_dump($ex->getMessage(),$ex->getFile(),$ex->getLine());exit;
         }

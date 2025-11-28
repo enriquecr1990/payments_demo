@@ -9,10 +9,10 @@
 
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
      <link rel="icon" sizes="32x32" href="https://www.paypalobjects.com/webstatic/developer/favicons/pp32.png">
 
      <title>PayPal - subscripciones</title>
+
 </head>
 
 <body>
@@ -24,12 +24,14 @@
           <div class="accordion" id="accordionExample">
                <div class="accordion-item">
                     <h2 class="accordion-header">
-                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                              data-bs-target="#collapseProductos" aria-expanded="false" aria-controls="collapseProductos">
+                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                              data-bs-target="#collapseProductos" aria-expanded="true"
+                              aria-controls="collapseProductos">
                               Productos
                          </button>
                     </h2>
-                    <div id="collapseProductos" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div id="collapseProductos" class="accordion-collapse collapse show"
+                         data-bs-parent="#accordionExample">
                          <div class="accordion-body">
                               <?php include('subscripcion/tablero_productos.php'); ?>
                          </div>
@@ -39,7 +41,7 @@
                     <h2 class="accordion-header">
                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                               data-bs-target="#collapsePlanes" aria-expanded="false" aria-controls="collapsePlanes">
-                              Planes
+                              Planes de subscripción
                          </button>
                     </h2>
                     <div id="collapsePlanes" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
@@ -65,6 +67,18 @@
                </div>
           </div>
 
+     </div>
+
+     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+               <img src="..." class="rounded me-2" alt="...">
+               <strong class="me-auto">Bootstrap</strong>
+               <small class="text-body-secondary">11 mins ago</small>
+               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+               Hello, world! This is a toast message.
+          </div>
      </div>
 
      <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
