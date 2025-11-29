@@ -46,7 +46,7 @@
                     </h2>
                     <div id="collapsePlanes" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                          <div class="accordion-body">
-
+                              <?php include('subscripcion/tablero_planes.php'); ?>
                          </div>
                     </div>
                </div>

@@ -376,7 +376,7 @@ class PayPal
                     ],
                     "tenure_type" => "REGULAR", //si es que aplica como plan normal o como version de prueba, por modelo de negocio para el omni sera regular
                     "sequence" => 1,
-                    "total_cycles" => $params['periodo_plan'],            // periocidad del plan, 0 = sin vencimiento/indefinido, 12 = 12 cobros conforme a la frecuencia
+                    "total_cycles" => $params['numero_pagos_plan'],            // periocidad del plan, 0 = sin vencimiento/indefinido, 12 = 12 cobros conforme a la frecuencia
                     "pricing_scheme" => [
                         "fixed_price" => [
                             "value" => $params['monto_plan'], //precio del plan, cargo conforme a la frecuencia

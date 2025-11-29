@@ -1,5 +1,8 @@
 <div class="row">
      <div class="form-group col-12 text-end">
+          <button id="btn-buscar-productos" class="btn btn-secondary btn-sm">
+               Buscar productos
+          </button>
           <button id="btn-nuevo-producto" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modal_form_producto">
                Nuevo
           </button>

@@ -28,7 +28,7 @@ switch ($operacion){
                'status' => 'ok',
                'message' => ['Operacion con exito','el listado de planes desde paypal se obtuvo correctamente'],
                'data' => [
-                    'planes' => $planes
+                    'planes' => $planes->plans
                ]
           ];
           break;

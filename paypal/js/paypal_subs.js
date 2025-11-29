@@ -1,14 +1,18 @@
 $(document).ready(function(){
 
+    $(document).on('click','#btn-buscar-productos',function(){
+        PayPal.listado_productos();
+    });
+
     $(document).on('click','#btn_guardar_producto',function(){
         PayPal.guardar_producto();
     });
 
     $(document).on('click','#btn-buscar-planes',function(){
-
+        PayPal.listado_planes();
     });
 
-    PayPal.listado_subscripciones();
+    
 
 });
 
@@ -56,7 +60,7 @@ var PayPal = {
         },7000);
     },
 
-    listado_subscripciones : function(){
+    listado_productos : function(){
         $('#rows_productos_paypal').html(PayPal.html_spinner_listsubs());
         $.ajax({
             method: 'post',
@@ -112,19 +116,56 @@ var PayPal = {
             },
             error : function(error){
                 console.log(error);
-                alert('ocurrio un error, avisa al desarrollador');
+                PayPal.mensajes_sistema(['ocurrio un error, avisa al desarrollador']);
             }
         });
-    }
+    },
+
+    html_spinner_listaplanes : function(){
+        var html = '<tr><td colspan="7" class="text-center">'+PayPal.html_spinner()+'</td></tr>';
+        return html;
+    },
+
+    listado_planes : function(){
+        $('#rows_planes_paypal').html(PayPal.html_spinner_listaplanes());
+        $.ajax({
+            method: 'post',
+            url : 'private/subscripcion.php',
+            dataType: 'json',
+            data : {
+                operacion : 'listado_plan'
+            },
+            success : function (response) {
+                if(response.status != 'ok'){
+                    PayPal.mensajes_sistema(response.message);
+                }else{
+                    $('#rows_planes_paypal').html(PayPal.parse_html_planes(response.data.planes));
+                }
+            },
+            error : function () {
+                alert('hubo un error uuuu dile al programador');
+            }
+        });
+    },
+
+    parse_html_planes : function(planes){
+        var html = '';
+        planes.forEach(function(p){
+            html += 
+            '<tr>'+
+                '<td>'+p.id+'</td>'+
+                '<td>'+p.product_id+'</td>'+
+                '<td>'+p.name+'</td>'+
+                '<td>'+p.description+'</td>'+
+                '<td>'+p.status+'</td>'+
+                '<td>'+p.create_time+'</td>'+
+                '<td>'+
+                    '<button class="btn btn-sm btn-warning mr-1">Editar</button>'+
+                    '<button class="btn btn-sm btn-danger">Eliminar</button>'+
+                '</td>'+
+            '</tr>';
+        });
+        return html;
+    },
 
 };
-
-function renderJson(json,preToJSON){
-    var opciones = {
-        collapsed : false,
-        rootCollapsable : true,
-        withQuotes : false,
-        withLinks : true
-    };
-    $(preToJSON).jsonViewer(json,opciones);
-}
