@@ -11,7 +11,7 @@ switch ($operacion){
           $respuesta = [
                'status' => 'ok',
                'message' => ['Operacion con exito','El listado de productos desde paypal se obtuvo correctamente'],
-               'data' => ['productos' => $peticion->products]
+               'data' => ['productos' => $peticion['curl']->products]
           ];
           break;
      case 'agregar_producto':
@@ -19,7 +19,7 @@ switch ($operacion){
           $respuesta = [
                'status' => 'ok',
                'message' => ['Operacion con exito','Se guardo el producto en paypal correctamente'],
-               'data' => ['producto' => $producto_nuevo]
+               'data' => ['producto' => $producto_nuevo['curl']]
           ];
           break;
      case 'listado_plan':
@@ -28,7 +28,7 @@ switch ($operacion){
                'status' => 'ok',
                'message' => ['Operacion con exito','el listado de planes desde paypal se obtuvo correctamente'],
                'data' => [
-                    'planes' => $planes->plans
+                    'planes' => $planes['curl']->plans
                ]
           ];
           break;
@@ -38,8 +38,9 @@ switch ($operacion){
                'status' => 'ok',
                'message' => ['Operacion con exito','el listado de planes desde paypal se obtuvo correctamente'],
                'data' => [
-                    'planes' => $plan_nuevo
-               ]
+                    'planes' => $plan_nuevo['curl']
+               ],
+               'curl_opt' => $plan_nuevo['options'],
           ];
           break;
      default:
@@ -60,7 +61,7 @@ class PaypalSubscriptions {
      function __construct(){
           $this->paypal = new PayPal();
           $responseToken = $this->paypal->getAccessToken();
-          $this->accessToken = $responseToken->access_token;
+          $this->accessToken = $responseToken['curl']->access_token;
      }
      public function listadoProductosSubscripcion(){
           return $this->paypal->listadoProductosSubscripcion($this->accessToken);
@@ -79,6 +80,6 @@ class PaypalSubscriptions {
      public function crearPlanSubscripcion(){
           $post = $_POST;
           unset($post['operacion']);//quitamos el parametro de operacion para que no llegue al objeto de paypal
-          return $this->paypal->crearProductoSubscripcion($post,$this->accessToken);
+          return $this->paypal->crearPlanSubscripcion($post,$this->accessToken);
      }
 }

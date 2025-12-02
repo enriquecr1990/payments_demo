@@ -8,15 +8,54 @@ $(document).ready(function(){
         PayPal.guardar_producto();
     });
 
+    $(document).on('click','.btn_crear_plan_producto',function(){
+        var id_producto = $(this).data('id_producto');
+        var nombre_producto = $(this).data('nombre_producto');
+        $('#btn_acordion_plan_subs').trigger('click');
+        $('#btn-nuevo-plan').removeAttr('disabled');
+        $('#span_nombre_producto').html(nombre_producto);
+        $('#input_id_producto').val(id_producto);
+    });
+
     $(document).on('click','#btn-buscar-planes',function(){
         PayPal.listado_planes();
     });
 
-    
+    $(document).on('click','#btn_guardar_plan',function(){
+        PayPal.guardar_plan();
+    });
+
+    // PayPal.start_validation_form_plan();
 
 });
 
 var PayPal = {
+
+    start_validation_form_plan : function(){
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+                'use strict'
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('.needs-validation')
+
+                // Loop over them and prevent submission
+                Array.from(forms).forEach(form => 
+                    {
+                        var form_valid
+                        form.addEventListener('submit', event => {
+                            if (!form.checkValidity()) {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+
+                            form.classList.add('was-validated')
+                        }, false)
+                    }
+                )
+            }
+        )()
+    },
 
     html_spinner : function (){
         var html = '' +
@@ -70,10 +109,10 @@ var PayPal = {
                 operacion : 'listado_producto'
             },
             success : function (response) {
-                if(response.status != 'ok'){
-                    PayPal.mensajes_sistema(response.message);
-                }else{
+                if(response.status == 'ok' || response.status == 'success'){
                     $('#rows_productos_paypal').html(PayPal.parse_html_productos(response.data.productos));
+                }else{
+                    PayPal.mensajes_sistema(response.message);
                 }
             },
             error : function () {
@@ -94,7 +133,7 @@ var PayPal = {
                 '<td>'+
                     '<button class="btn btn-sm btn-warning mr-1">Editar</button>'+
                     '<button class="btn btn-sm btn-danger">Eliminar</button>'+
-                    '<button class="btn btn-sm btn-info" data-id_producto="'+p.id+'">Crear Plan</button>'+
+                    '<button class="btn btn-sm btn-info btn_crear_plan_producto" data-id_producto="'+p.id+'" data-nombre_producto="'+p.name+'">Crear Plan</button>'+
                 '</td>'+
             '</tr>';
         });
@@ -108,7 +147,7 @@ var PayPal = {
             dataType : 'json',
             data : $('#form_producto').serialize()+'&operacion=agregar_producto',
             success : function(response){
-                if(response.status == 'ok'){
+                if(response.status == 'ok' || response.status == 'success'){
                     PayPal.modal_process('#modal_form_producto',false);
                     PayPal.listado_subscripciones();
                 }
@@ -136,10 +175,10 @@ var PayPal = {
                 operacion : 'listado_plan'
             },
             success : function (response) {
-                if(response.status != 'ok'){
-                    PayPal.mensajes_sistema(response.message);
-                }else{
+                if(response.status == 'ok' || response.status == 'success'){
                     $('#rows_planes_paypal').html(PayPal.parse_html_planes(response.data.planes));
+                }else{
+                    PayPal.mensajes_sistema(response.message);
                 }
             },
             error : function () {
@@ -166,6 +205,27 @@ var PayPal = {
             '</tr>';
         });
         return html;
+    },
+
+    guardar_plan : function(){
+        //realizamos la omision de validacion del formulario, es meramente prueba
+        $.ajax({
+            type : 'post',
+            url : 'private/subscripcion.php',
+            dataType : 'json',
+            data : $('#form_plan').serialize()+'&operacion=agregar_plan',
+            success : function(response){
+                if(response.status == 'ok' || response.status == 'success'){
+                    PayPal.modal_process('#modal_form_plan',false);
+                    PayPal.listado_planes();
+                }
+                PayPal.mensajes_sistema(response.message);
+            },
+            error : function(error){
+                console.log(error);
+                PayPal.mensajes_sistema(['ocurrio un error, avisa al desarrollador']);
+            }
+        });
     },
 
 };

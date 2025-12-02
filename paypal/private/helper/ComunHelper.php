@@ -10,12 +10,15 @@ class ComunHelper
             $response = curl_exec($curl);
             $error = curl_error($curl);
             curl_close($curl);
+            $return['options'] = $options;
             if($error){
-                $return = $error;
+                $return['status'] = 'error';
+                $return['curl'] = json_decode($error);
             }else{
-                $return = $response;
+                $return['status'] = 'success';
+                $return['curl'] = json_decode($response);
             }
-            return json_decode($return);
+            return $return;
         }catch(Exception $ex){
             var_dump($ex->getMessage(),$ex->getFile(),$ex->getLine());exit;
         }
