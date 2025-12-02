@@ -1,7 +1,7 @@
 <div class="row">
      <div class="form-group col-8">
           <div class="alert alert-warning" role="alert">
-               Para poder agregar un plan nuevo, seleccione primero un productos del listado "Productos" en el boton azul de "crear plan"
+               Para poder agregar un plan nuevo, seleccione primero un producto del listado "Productos" en el boton azul de "crear plan"
           </div>
      </div>
      <div class="form-group col-4 text-end">
@@ -46,7 +46,7 @@
                          <div class="row">
                               <div class="form-group col-12">
                                    <div class="alert alert-info" role="alert">
-                                        Se creara un plan para el producto <label id="span_nombre_producto"></label>
+                                        Se creara un plan para el producto <span class="badge text-bg-info" id="span_nombre_producto"></span>
                                    </div>
                               </div>
                          </div>

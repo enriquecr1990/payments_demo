@@ -52,7 +52,7 @@
                </div>
                <div class="accordion-item">
                     <h2 class="accordion-header">
-                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                         <button class="accordion-button collapsed" id="btn_acordion_subscripcion" type="button" data-bs-toggle="collapse"
                               data-bs-target="#collapseSubscripciones" aria-expanded="false"
                               aria-controls="collapseSubscripciones">
                               Subscripciones
@@ -61,7 +61,7 @@
                     <div id="collapseSubscripciones" class="accordion-collapse collapse"
                          data-bs-parent="#accordionExample">
                          <div class="accordion-body">
-
+                              <?php include('subscripcion/tablero_subscripciones.php'); ?>
                          </div>
                     </div>
                </div>

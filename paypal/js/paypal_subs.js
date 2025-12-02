@@ -25,6 +25,16 @@ $(document).ready(function(){
         PayPal.guardar_plan();
     });
 
+    $(document).on('click','.btn_crear_subscripcion',function(){
+        // $('#paypal-button-container').html(PayPal.html_spinner());
+        var plan_id = $(this).data('plan_id');
+        var nombre_plan = $(this).data('nombre_plan');
+        $('#btn_acordion_subscripcion').trigger('click');
+        $('#btn-nuevo-plan').removeAttr('disabled');
+        $('#plan_seleccionado_subscripcion').html(nombre_plan);
+        // $('#input_id_producto').val(id_producto);
+        PayPal.subscribir_a_plan(plan_id);
+    });
     // PayPal.start_validation_form_plan();
 
 });
@@ -201,6 +211,7 @@ var PayPal = {
                 '<td>'+
                     '<button class="btn btn-sm btn-warning mr-1">Editar</button>'+
                     '<button class="btn btn-sm btn-danger">Eliminar</button>'+
+                    '<button class="btn btn-sm btn-success btn_crear_subscripcion" data-plan_id="'+p.id+'" data-nombre_plan="'+p.name+'">Subscribirse</button>'+
                 '</td>'+
             '</tr>';
         });
@@ -226,6 +237,25 @@ var PayPal = {
                 PayPal.mensajes_sistema(['ocurrio un error, avisa al desarrollador']);
             }
         });
+    },
+
+    subscribir_a_plan : function(plan_id){
+        paypal.Buttons({
+            createSubscription: function (data, actions) {
+                console.log(data);
+                console.log(actions);
+                return actions.subscription.create({
+                    'plan_id': plan_id// Creates the subscription
+                });
+            },
+            onApprove: function (data, actions) {
+                console.log(data);
+                console.log(actions);
+                // alert('You have successfully subscribed to ' + data.subscriptionID); // Optional message given to subscriber
+                PayPal.mensajes_sistema(['Se subscribio correctamente al plan.' + data.subscriptionID]);
+                $('#paypal-button-container').html('');
+            }
+        }).render('#paypal-button-container'); // Renders the PayPal button
     },
 
 };
