@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__.'\helper\ComunHelper.php';
+include 'helper/ComunHelper.php';
 
 class FacRsk
 {
@@ -20,9 +20,9 @@ class FacRsk
             CURLOPT_HTTPHEADER => array(
                 'Accept: application/json',
                 'Content-Type: application/json',
-                //NICARAGUA
-                'PowerTranz-PowerTranzId: 88801430',
-                'PowerTranz-PowerTranzPassword: 9q4npw0qOR3cV07eYT9xBNBICz9g3VttoVIyCnWw'
+                //HONDURAS
+                'PowerTranz-PowerTranzId: 88804800',
+                'PowerTranz-PowerTranzPassword: JUU6szD5Bjt5QJmWu29QT8xbp8i9DJ0nCp4HrUQw2N5jvSeeWf7QN3'
                 //GUATEMALA
                 //'PowerTranz-PowerTranzId: 88801205',
                 //'PowerTranz-PowerTranzPassword: h3WZZ46NA9zjrzYLoEpf5XqUC1WzkSR4dGz5iaDxkjYpvfHGAMMEkx'
@@ -50,6 +50,9 @@ class FacRsk
                 'Content-Type: application/json',
                 //'PowerTranz-PowerTranzId: 88801430',
                 //'PowerTranz-PowerTranzPassword: 9q4npw0qOR3cV07eYT9xBNBICz9g3VttoVIyCnWw'
+                //HONDURASS
+                'PowerTranz-PowerTranzId: 88804800',
+                'PowerTranz-PowerTranzPassword: JUU6szD5Bjt5QJmWu29QT8xbp8i9DJ0nCp4HrUQw2N5jvSeeWf7QN3'
             ),
         );
 
@@ -61,14 +64,15 @@ class FacRsk
     }
 
     private function getDataPost(){
-        $ti = com_create_guid();
+        $ti = $this->com_create_guid();
         $ti = str_replace('{','',$ti);
         $ti = str_replace('}','',$ti);
         $data = array(
             //"TransactionIdentifier" => 'Omn1-TESTing-OML-'.date('YmdHis'),
             "TransactionIdentifier" => $ti,
             "TotalAmount" => '100',
-            "CurrencyCode" => '558', //nicaragua
+            "CurrencyCode" => '340', //honduras
+            // "CurrencyCode" => '340', //nicaragua
             //"CurrencyCode" => '320', //guatemala
             "ThreeDSecure" => true,
             "source" => array(
@@ -85,8 +89,9 @@ class FacRsk
                 'line2' => '',
                 'city' => 'MANAGUA',
                 'state' => '', //debe ser en formato ISO
-                'postalCode' => '840',
-                'countryCode' => '558', //codigo de pais de la sesion country code NICARAGUA
+                'postalCode' => '11101',
+                'countryCode' => '340', //codigo de pais de la sesion country code NICARAGUA
+                // 'countryCode' => '558', //codigo de pais de la sesion country code NICARAGUA
                 //'countryCode' => '320', //codigo de pais de la sesion country code GUATEMALA
                 'emailAddress' => 'enrique_cr1990@hotmail.com',
                 'phoneNumber' => '2467575099',
@@ -97,14 +102,28 @@ class FacRsk
                     'challengeWindowSize' => 3, //dimensiones del panel de la solicitud 3DS que se le presenta al th (ver doc)
                     'challengeIndicator' => '01',
                 ),
-                'MERCHANTRESPONSEURL' => 'http://localhost/metodos_pago/fac/respuesta.php',
+                'MERCHANTRESPONSEURL' => 'http://broker.local.com/fac/respuesta.php',
                 'HOSTEDPAGE' => array(
-                    'PAGESET' => 'PagoTest',
-                    'PAGENAME' => 'PagoTest'
+                    'PAGESET' => 'CssOmniTemplate',
+                    'PAGENAME' => 'CssOmniTemplate'
                 )
             ),
         );
         return  $data;
+    }
+
+    private function com_create_guid()
+    {
+        if (function_exists('com_create_guid') === true) {
+            return trim(com_create_guid(), '{}');
+        }
+
+        $data = openssl_random_pseudo_bytes(16);
+
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
+
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
 }

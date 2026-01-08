@@ -22,7 +22,6 @@
             </div>
         </div>
     </div>
-    <?php echo com_create_guid(); ?>
     <div class="row">
         <div class="form-group col-lg-12 text-center">
             <button class="btn btn-sm btn-primary" id="pagar_fac_rsk">Pagar</button>

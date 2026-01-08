@@ -15,13 +15,14 @@ var FacRsk = {
             dataType : 'json',
             data : {},
             success : function (response) {
-                //console.log(response);
-                var iframe = '<iframe style="width: 100%; height: 400px" srcdoc="'+response.resultado.RedirectData+'"></iframe>'
+                console.log(response);
+                var iframe = '<iframe style="width: 100%; height: 500px" srcdoc="'+response.resultado.RedirectData+'"></iframe>'
                 $('#contenedor_pago_facrsk').html(iframe);
                 window.onload = redirectParent;
                 function redirectParent(){
                     window.parent.location = './AutenticaciónResult';
                 }
+                // window.location = response.resultado.RedirectData;
             },
             error :function(){
                 alert('hubo un error uuuu dile al programador');
