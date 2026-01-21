@@ -13,12 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     die();
 }
 
-// El resto de tu código PHP (lógica de la API, etc.) va aquí...
-// Asegúrate de que no haya salida de texto o HTML antes de estas cabeceras.
-
 include_once ('private/FacRsk.php');
 
-$facRsk = new FacRsk();
+// $facRsk = new FacRsk();
 var_dump($_POST);exit;
 $resultado = $facRsk->execPago($_POST['SpiToken']);
 $data['resultado'] = json_decode($resultado);

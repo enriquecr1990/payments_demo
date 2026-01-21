@@ -1,14 +1,12 @@
 <?php
 
-include_once 'FacRsk.php';
-include_once 'ConfigFac.php';
+include_once 'private/FacRsk.php';
+include_once 'private/ConfigFac.php';
 
 //obtendremos los datos conforme al pais que llegue del front
-$country_post = $_POST['country'];
-
-$data_country = ConfigFac::countryConfig($country_post);
-$procesar_pago = sizeof($data_country) != 0;
-
+$country = $_GET['country'];
+$data_country = ConfigFac::countryConfig($country);
+$procesar_pago = sizeof($data_country) > 0;
 
 if($procesar_pago){
      $data_country['url'] = 'https://staging.ptranz.com/api';
@@ -22,9 +20,9 @@ if($procesar_pago){
           $data_country['hosted_page_name'],
      );
      
-     $data = $facRsk->procesarPago();
+     $facRsk->procesarPagoRedirect();
 }else{
      $data['status'] = false;
      $data['msg'] = ['No llego el pais como parametro'];
+     echo json_encode($data);exit;
 }
-echo json_encode($data);exit;

@@ -5,10 +5,27 @@ include 'helper/ComunHelper.php';
 class FacRsk
 {
 
+    private $url;
+    private $id_tranz;
+    private $pass_tranz;
+    private $country;
+    private $currency;
+    private $hosted_page;
+    private $hosted_page_name;
+    
+    function __construct($url,$id_tranz,$pass_tranz,$country,$currency,$hosted_page,$hosted_page_name){
+        $this->url = $url;
+        $this->id_tranz = $id_tranz;
+        $this->pass_tranz = $pass_tranz;
+        $this->country = $country;
+        $this->currency = $currency;
+        $this->hosted_page = $hosted_page;
+        $this->hosted_page_name = $hosted_page_name;
+    }
+
     public function procesarPago(){
-        $url = 'https://staging.ptranz.com/api/spi/sale';
+        $url = $this->url.'/spi/sale';
         $dataPost = json_encode($this->getDataPost(),JSON_FORCE_OBJECT);
-        //var_dump($dataPost);exit;
         $options = array(
             CURLOPT_URL => $url,
             CURLOPT_POST => true,
@@ -20,23 +37,50 @@ class FacRsk
             CURLOPT_HTTPHEADER => array(
                 'Accept: application/json',
                 'Content-Type: application/json',
-                //HONDURAS
-                'PowerTranz-PowerTranzId: 88804800',
-                'PowerTranz-PowerTranzPassword: JUU6szD5Bjt5QJmWu29QT8xbp8i9DJ0nCp4HrUQw2N5jvSeeWf7QN3'
-                //GUATEMALA
-                //'PowerTranz-PowerTranzId: 88801205',
-                //'PowerTranz-PowerTranzPassword: h3WZZ46NA9zjrzYLoEpf5XqUC1WzkSR4dGz5iaDxkjYpvfHGAMMEkx'
+                'PowerTranz-PowerTranzId: '.$this->id_tranz,
+                'PowerTranz-PowerTranzPassword: '.$this->pass_tranz, 
             ),
         );
 
-        //return $this->curlopt($url,$options);
-        $return = ComunHelper::curlopt($url,$options);
+        $curl = ComunHelper::curlopt($url,$options);
+        if($curl['status']){
+            //decodificamos el response del curl
+            $fac_response = json_decode($curl['data']);
+            if(isset($fac_response->IsoResponseCode) && $fac_response->IsoResponseCode == 'SP4'){
+                $return['status'] = true;
+                $return['msg'] = ['Se proceso la respuesta correctamente'];
+                $return['data'] = $fac_response;
+            }else{
+                $return['status'] = false;
+                $return['msg'] = [$fac_response->ResponseMessage];
+                if(isset($fac_response->Errors) && is_array($fac_response->Errors)){
+                    foreach($fac_response->Errors as $error){
+                        $return['msg'][] = $error->Message;
+                    }
+                }
+            }
+        }else{
+            $return['status'] = false;
+        }
         return $return;
     }
 
+    public function procesarPagoRedirect(){
+        $resultado = $this->procesarPago();
+        if($resultado['status']){
+            $html = $resultado['data']->RedirectData;
+            // Indicamos que la respuesta es HTML real
+            header("Content-Type: text/html; charset=UTF-8");
+
+            // Imprimimos el HTML tal cual
+            echo $html;exit;
+        }else{
+            var_dump($resultado);exit;
+        }
+    }
+
     public function execPago($spiToken){
-        $url = 'https://staging.ptranz.com/api/spi/payment';
-        //var_dump($dataPost);exit;
+        $url = $this->url.'/spi/payment';
         $options = array(
             CURLOPT_URL => $url,
             CURLOPT_POST => true,
@@ -48,18 +92,13 @@ class FacRsk
             CURLOPT_HTTPHEADER => array(
                 'Accept: application/json',
                 'Content-Type: application/json',
-                //'PowerTranz-PowerTranzId: 88801430',
-                //'PowerTranz-PowerTranzPassword: 9q4npw0qOR3cV07eYT9xBNBICz9g3VttoVIyCnWw'
-                //HONDURASS
-                'PowerTranz-PowerTranzId: 88804800',
-                'PowerTranz-PowerTranzPassword: JUU6szD5Bjt5QJmWu29QT8xbp8i9DJ0nCp4HrUQw2N5jvSeeWf7QN3'
+                'PowerTranz-PowerTranzId: '.$this->id_tranz,
+                'PowerTranz-PowerTranzPassword: '.$this->pass_tranz,
             ),
         );
 
         //return $this->curlopt($url,$options);
-        var_dump($options);
         $return = ComunHelper::curlopt($url,$options);
-        var_dump(json_decode($return));exit;
         return $return;
     }
 
@@ -71,9 +110,7 @@ class FacRsk
             //"TransactionIdentifier" => 'Omn1-TESTing-OML-'.date('YmdHis'),
             "TransactionIdentifier" => $ti,
             "TotalAmount" => '100',
-            "CurrencyCode" => '340', //honduras
-            // "CurrencyCode" => '340', //nicaragua
-            //"CurrencyCode" => '320', //guatemala
+            "CurrencyCode" => ''.$this->currency,
             "ThreeDSecure" => true,
             "source" => array(
 //                'CardPan' => '5115010000000001',
@@ -90,9 +127,7 @@ class FacRsk
                 'city' => 'MANAGUA',
                 'state' => '', //debe ser en formato ISO
                 'postalCode' => '11101',
-                'countryCode' => '340', //codigo de pais de la sesion country code NICARAGUA
-                // 'countryCode' => '558', //codigo de pais de la sesion country code NICARAGUA
-                //'countryCode' => '320', //codigo de pais de la sesion country code GUATEMALA
+                'countryCode' => ''.$this->country, 
                 'emailAddress' => 'enrique_cr1990@hotmail.com',
                 'phoneNumber' => '2467575099',
             ),
@@ -102,10 +137,10 @@ class FacRsk
                     'challengeWindowSize' => 3, //dimensiones del panel de la solicitud 3DS que se le presenta al th (ver doc)
                     'challengeIndicator' => '01',
                 ),
-                'MERCHANTRESPONSEURL' => 'http://broker.local.com/fac/respuesta.php',
+                'MERCHANTRESPONSEURL' => 'http://broker.dev.com/fac/respuesta.php',
                 'HOSTEDPAGE' => array(
-                    'PAGESET' => 'CssOmniTemplate',
-                    'PAGENAME' => 'CssOmniTemplate'
+                    'PAGESET' => ''.$this->hosted_page,
+                    'PAGENAME' => ''.$this->hosted_page_name
                 )
             ),
         );

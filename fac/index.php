@@ -22,7 +22,29 @@
             </div>
         </div>
     </div>
+    <div class="row" id="contenedor_mensajes" style="display: none;">
+        <div class="alert alert-warning" id="listado_mensajes">
+
+        </div>
+    </div>
     <div class="row">
+        <div class="form-group">
+            <div class="col-lg-12">
+                <label for="slt_contry">País de pago</label>
+                <select class="custom-select" id="slt_country" name="country">
+                    <option value="">-- Seleccione país --</option>
+                    <option value="honduras">Honduras</option>
+                    <option value="panama">Panama</option>
+                </select>
+            </div>
+            <div class="col-lg-12">
+                <label>Con redirecionamiento</label>
+                <select class="custom-select" id="slt_redirect" name="redirect">
+                    <option value="no" selected="selected">No</option>
+                    <option value="si">Si</option>
+                </select>
+            </div>
+        </div>
         <div class="form-group col-lg-12 text-center">
             <button class="btn btn-sm btn-primary" id="pagar_fac_rsk">Pagar</button>
         </div>

@@ -10,9 +10,11 @@ class ComunHelper
         $error = curl_error($curl);
         curl_close($curl);
         if($error){
-            $return = $error;
+            $return['status'] = false;
+            $return['msg'] = $error;
         }else{
-            $return = $response;
+            $return['status'] = true;
+            $return['data'] = $response;
         }
         return $return;
     }
