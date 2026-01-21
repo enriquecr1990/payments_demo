@@ -14,7 +14,7 @@ class ConfigFac {
                     $data_country['pass'] = 'GeyztlWRzQEp6NO2M6dRxfrYLXXxaB621mAkz87rLzpAyV38XgZ8kF1';
                     $data_country['country'] = '340';
                     $data_country['currency'] = '340';
-                    $data_country['hosted_page_set'] = 'CssOmniTemplate';
+                    $data_country['hosted_page_set'] = 'ptz/CssOmniTemplate';
                     $data_country['hosted_page_name'] = 'CssOmniTemplate';
                     break;
                case 'panama':
